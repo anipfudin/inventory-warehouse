@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Location extends Model
+{
+    protected $fillable = [
+        'code',
+        'name',
+        'zone',
+        'aisle',
+        'rack',
+    ];
+
+    public function stocks(): HasMany
+    {
+        return $this->hasMany(Stock::class);
+    }
+
+    public function stockMovements(): HasMany
+    {
+        return $this->hasMany(StockMovement::class);
+    }
+}
