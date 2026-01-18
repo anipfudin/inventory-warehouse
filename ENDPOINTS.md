@@ -1,6 +1,6 @@
 # API & Endpoints Documentation
 
-## 🔗 Complete Routes Map
+## Complete Routes Map
 
 ### Authentication Routes (dari Laravel Breeze)
 ```
@@ -201,7 +201,7 @@ POST   /sales_orders/{so}/cancel       - Cancel SO
 
 ---
 
-## 📊 Response Formats
+## Response Formats
 
 ### Success Response (Index/List)
 ```json
@@ -247,7 +247,7 @@ POST   /sales_orders/{so}/cancel       - Cancel SO
 
 ---
 
-## 🔐 Authorization & Middleware
+##  Authorization & Middleware
 
 ### Middleware Stack
 ```
@@ -293,7 +293,7 @@ POST   /sales_orders/{so}/cancel       - Cancel SO
 
 ---
 
-## 🎯 Validation Rules
+## Validation Rules
 
 ### Supplier Create/Update
 ```
@@ -363,7 +363,7 @@ details.*.quantity         - required | integer | min:1
 
 ---
 
-## 💾 Database Relations
+##  Database Relations
 
 ### Eloquent Model Relationships
 
@@ -436,7 +436,7 @@ belongsTo(User::class, 'created_by')
 
 ---
 
-## ⚙️ Business Logic Methods
+## Business Logic Methods
 
 ### Item Model
 ```php
@@ -542,7 +542,7 @@ foreach ($salesOrder->details as $detail) {
 
 ---
 
-## 📈 Performance Optimizations
+## Performance Optimizations
 
 ### Query Optimizations
 - Use `with()` untuk eager loading relationships
