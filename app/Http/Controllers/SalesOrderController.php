@@ -195,6 +195,24 @@ class SalesOrderController extends Controller
     }
 
     /**
+     * Cancel a sales order.
+     */
+    public function cancel(SalesOrder $salesOrder): RedirectResponse
+    {
+        $this->authorizeViewSalesOrder($salesOrder);
+
+        if ($salesOrder->status === 'shipped') {
+            return redirect()->route('sales-orders.show', $salesOrder)
+                ->with('error', 'SO yang sudah dikirim tidak bisa dibatalkan');
+        }
+
+        $salesOrder->update(['status' => 'cancelled']);
+
+        return redirect()->route('sales-orders.index')
+            ->with('success', 'SO berhasil dibatalkan');
+    }
+
+    /**
      * Ship/Complete sales order (Barang keluar).
      */
     public function ship(Request $request, SalesOrder $salesOrder): RedirectResponse

@@ -18,30 +18,18 @@ Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Master Data - View only untuk user biasa
-    Route::get('suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
-    Route::get('suppliers/{supplier}', [SupplierController::class, 'show'])->name('suppliers.show');
-    Route::get('locations', [LocationController::class, 'index'])->name('locations.index');
-    Route::get('locations/{location}', [LocationController::class, 'show'])->name('locations.show');
-    Route::get('items', [ItemController::class, 'index'])->name('items.index');
-    Route::get('items/{item}', [ItemController::class, 'show'])->name('items.show');
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Purchase Orders - View only untuk user biasa
-    Route::get('purchase-orders', [PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
-    Route::get('purchase-orders/{purchase_order}', [PurchaseOrderController::class, 'show'])->name('purchase-orders.show');
-
-    // Sales Orders - Full CRUD untuk user biasa
+    // Sales Orders - Full CRUD untuk semua user yang login
     Route::resource('sales-orders', SalesOrderController::class);
     Route::post('sales-orders/{sales_order}/add-item', [SalesOrderController::class, 'addItem'])->name('sales-orders.add-item');
     Route::post('sales-orders/{sales_order}/remove-item/{detail_id}', [SalesOrderController::class, 'removeItem'])->name('sales-orders.remove-item');
     Route::post('sales-orders/{sales_order}/confirm', [SalesOrderController::class, 'confirm'])->name('sales-orders.confirm');
     Route::post('sales-orders/{sales_order}/cancel', [SalesOrderController::class, 'cancel'])->name('sales-orders.cancel');
     Route::post('sales-orders/{sales_order}/ship', [SalesOrderController::class, 'ship'])->name('sales-orders.ship');
-
-    // Profile routes
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Admin only routes
     Route::middleware('admin')->group(function () {

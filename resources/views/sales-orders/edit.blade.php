@@ -109,8 +109,8 @@
                             <td>Rp {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
                             <td>
                                 @if($salesOrder->status === 'draft')
-                                    <form action="{{ route('sales-orders.remove-item', [$salesOrder, $detail]) }}" method="POST" class="d-inline">
-                                        @csrf @method('DELETE')
+                                    <form action="{{ route('sales-orders.remove-item', [$salesOrder, $detail->id]) }}" method="POST" class="d-inline">
+                                        @csrf @method('POST')
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin?')">
                                             <i class="bi bi-trash"></i>
                                         </button>

@@ -39,11 +39,21 @@ class SalesOrder extends Model
     {
         $year = date('Y');
         $month = date('m');
-        $count = self::whereYear('created_at', $year)
-                    ->whereMonth('created_at', $month)
-                    ->count() + 1;
+        $prefix = 'SO-' . $year . $month . '-';
         
-        return 'SO-' . $year . $month . '-' . str_pad($count, 4, '0', STR_PAD_LEFT);
+        // Get the highest sequence number used this month
+        $lastSo = self::where('so_number', 'like', $prefix . '%')
+                    ->orderBy('so_number', 'desc')
+                    ->first();
+        
+        if ($lastSo) {
+            $lastNumber = (int) substr($lastSo->so_number, strlen($prefix));
+            $nextNumber = $lastNumber + 1;
+        } else {
+            $nextNumber = 1;
+        }
+        
+        return $prefix . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
     /**

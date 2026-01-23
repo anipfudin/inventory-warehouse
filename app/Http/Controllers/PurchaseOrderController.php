@@ -254,6 +254,25 @@ class PurchaseOrderController extends Controller
     }
 
     /**
+     * Cancel a purchase order.
+     */
+    public function cancel(PurchaseOrder $purchaseOrder): RedirectResponse
+    {
+
+
+        
+        if ($purchaseOrder->status === 'received') {
+            return redirect()->route('purchase-orders.show', $purchaseOrder)
+                ->with('error', 'PO yang sudah diterima tidak bisa dibatalkan');
+        }
+
+        $purchaseOrder->update(['status' => 'cancelled']);
+
+        return redirect()->route('purchase-orders.index')
+            ->with('success', 'PO berhasil dibatalkan');
+    }
+
+    /**
      * Remove the specified purchase order from storage.
      */
     public function destroy(PurchaseOrder $purchaseOrder): RedirectResponse

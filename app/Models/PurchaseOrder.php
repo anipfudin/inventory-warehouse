@@ -38,31 +38,34 @@ class PurchaseOrder extends Model
         return $this->hasMany(PurchaseOrderDetail::class);
     }
 
-    /**
-     * Generate unique PO number
-     */
+  
     public static function generatePoNumber(): string
     {
         $year = date('Y');
         $month = date('m');
-        $count = self::whereYear('created_at', $year)
-                    ->whereMonth('created_at', $month)
-                    ->count() + 1;
+        $prefix = 'PO-' . $year . $month . '-';
         
-        return 'PO-' . $year . $month . '-' . str_pad($count, 4, '0', STR_PAD_LEFT);
+        // Get the highest sequence number used this month
+        $lastPo = self::where('po_number', 'like', $prefix . '%')
+                    ->orderBy('po_number', 'desc')
+                    ->first();
+        
+        if ($lastPo) {
+            $lastNumber = (int) substr($lastPo->po_number, strlen($prefix));
+            $nextNumber = $lastNumber + 1;
+        } else {
+            $nextNumber = 1;
+        }
+        
+        return $prefix . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
-    /**
-     * Check if PO can be confirmed (has at least 1 item)
-     */
     public function canConfirm(): bool
     {
         return $this->details()->count() > 0 && $this->status === 'draft';
     }
 
-    /**
-     * Check if PO can be received
-     */
+
     public function canReceive(): bool
     {
         return $this->status === 'pending';
